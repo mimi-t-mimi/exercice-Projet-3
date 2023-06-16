@@ -122,8 +122,10 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 #portfolio h2 {
-	text-align: center;
 	margin-bottom: 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .gallery {
 	width: 100%;
@@ -203,4 +205,184 @@ button {
 	color: #1D6154;
 	border: solid 1px #1D6154;
 	font-size: 16px;
+	background-color: white;
 }
+.filtres button.active{ 
+	background-color: white ;
+}
+
+#loginForm {
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 150px;
+	text-align: left ;
+
+}
+#motdepasseoublie {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+}
+#boutonconnexion {
+	background-color: #1D6154;
+	color:white;
+	width: 25%;
+	height: 40px;
+	background-color: #1D6154;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	margin-top: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+#email, #password {
+	width: 50%;
+	height: 40px;
+	border-radius: 10px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.formulaire > label {
+	text-align: left;
+}
+
+.headerAdmin {
+	height: 59px;
+	background-color: black;
+}
+.boutonModifier{
+
+	text-decoration: none;
+	color: black;
+	margin-bottom: 15px;
+	display: block; 
+
+}
+.boutonModifierProjets{
+	margin: 0;
+	display: inline;
+	font-size: 14px;
+	font-weight: 400;
+	margin-left: 25px;
+}
+
+.hidden {
+	display:none !important;
+}
+
+/* code css de ma partie fentere modale  */
+#overlay {
+	display: none; /* Masquer par défaut la fenêtre modale */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* ici le code pour un effet  Arrière-plan semi-transparent */
+	z-index: 9999; 
+	align-items: center;
+	justify-content: center;  
+}
+
+#modal {
+	width: 625px;
+	height: 725px;
+	background-color: #fff;
+	/*margin: 150px auto;*/ /* Centrer la fenêtre modale */
+	
+}
+#modal > h3 {
+	text-align: center;
+	width: 175px;
+	height: 35px;
+	margin: 0 auto;
+}
+#modal-content {
+	padding:0 20px 20px 20px;
+	max-height: 100%;
+	overflow-y: auto;
+}
+#modal > nav {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 15px;
+	padding: 15px;
+}
+#modal-content >h3 {
+	text-align: center;
+	margin-bottom: 20px;
+	
+}
+
+.modal-projet > img {
+	width: 78px;
+	height: 104px;
+}
+
+.boutonModifierProjets {
+	cursor: pointer;
+}
+#modal-content {
+	display: grid;
+	grid-template-columns:repeat(5, 1fr); 
+	gap: 10px;
+  }
+
+  
+  #modal-content img {
+	position: relative;
+	max-width: 100%; 
+	height: auto; 
+
+  }
+
+  #modal>footer {
+	text-align: center;
+	display:flex;
+	flex-direction: column;
+	align-items: center ;
+	row-gap: 25px;
+	
+  }
+/* cette partie pour crée ma bare grise au mileu de la modal  */
+  #modal>footer>span { 
+	border-top: 1px solid #ccc;
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+margin: 25px;}
+
+
+  
+  #modal >footer> button {
+	display:flex;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	background-color: #1D6154;
+	color: #fff;
+	width: 236px;
+	height: 36px;
+	margin-top: 20px;
+
+
+}
+  
+  #modal > footer >a {
+	color: red;
+	text-decoration: none;
+	width: 236px;
+	height: 17px;
+  }
+  
+ 
