@@ -111,7 +111,8 @@ document.querySelector('#overlay').addEventListener('click', () => {
 function afficherProjets() {
     // element DOM qui accueille tous les projets
     const modalContenu = document.querySelector('#modal-content');
-   
+    // code pour vider le modal contenu 
+    modalContenu.innerHTML=""
 
     // Parcourir tous les projets et les afficher avec une corbeille 
     // j'essaie de créer une div qui contiendra le projet isssu de l'api 'works'
@@ -125,16 +126,22 @@ function afficherProjets() {
         image.src = projet.imageUrl;
         image.alt = projet.title;
         projetElement.appendChild(image);
+        const menu = document.createElement ('div')
+        menu.classList.add ('menu-projet')
 
-// jessaie de creer l'option suppression via le bouton corbeille surlaquelle je pourrais cliquer pour supp le projet 
-        const corbeille = document.createElement('i');
-        corbeille.classList.add('fa', 'fa-trash', 'corbeille');
-        corbeille.addEventListener('click', () => alert('Supprimer le projet ?'));
-
+        const deplacer = document.createElement('i');
+        deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element');
        
-        projetElement.appendChild(corbeille);
+// // jessaie de creer l'option suppression via le bouton corbeille surlaquelle je pourrais cliquer pour supp le projet 
+        const corbeille = document.createElement('i');
+        corbeille.classList.add('fa', 'fa-trash', 'bouton-element');
+        corbeille.addEventListener('click', () => alert('Supprimer le projet ?'));
+       
+        menu.appendChild(deplacer)
+        menu.appendChild(corbeille)
+        projetElement.appendChild(menu);
         modalContenu.appendChild(projetElement);
-      
+        
     });
 }
 
@@ -154,5 +161,4 @@ const footer = document.querySelector('#modal footer');
 // Ajouter le bouton et le lien à l'intérieur du footer
 footer.appendChild(boutonAjouterPhoto);
 footer.appendChild(lienSupprimer);
-
 
