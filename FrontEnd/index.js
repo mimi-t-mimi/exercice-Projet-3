@@ -101,11 +101,15 @@ function fermerModal() {
 	modal.style.display = 'none'; 
 
 }
+
+
 document.querySelector('#boutonModifierProjets').addEventListener('click', () => {
     ouvrirModal();
 });
 document.querySelector('#overlay').addEventListener('click', () => {
     fermerModal();
+// je met un stop propagation avec fonction (e) 
+   
 });
 
 function afficherProjets() {
@@ -130,7 +134,7 @@ function afficherProjets() {
         menu.classList.add ('menu-projet')
 
         const deplacer = document.createElement('i');
-        deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element');
+        deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element','bouton-deplacer');
        
 // // jessaie de creer l'option suppression via le bouton corbeille surlaquelle je pourrais cliquer pour supp le projet 
         const corbeille = document.createElement('i');
@@ -149,6 +153,10 @@ function afficherProjets() {
 const boutonAjouterPhoto = document.createElement('button');
 boutonAjouterPhoto.textContent = 'Ajouter une photo';
 boutonAjouterPhoto.classList.add('bouton-Ajouter-Photo');
+boutonAjouterPhoto.addEventListener('click',function(e) {
+    e.stopPropagation()
+   document.querySelector('#modal-ajout').style.display='flex'
+})
 
 // Créer le lien de suppression de la galerie 
 const lienSupprimer = document.createElement('a');
@@ -162,3 +170,15 @@ const footer = document.querySelector('#modal footer');
 footer.appendChild(boutonAjouterPhoto);
 footer.appendChild(lienSupprimer);
 
+// Récupérer le bouton "xmark" du doc html 
+var xmarkBouton = document.querySelector("#modal-ajout-menu  i.fa-solid.fa-xmark");
+
+// Ajouter un événement de clic au bouton "xmark"
+xmarkBouton.addEventListener("click", function() {
+  var modalAjoutDiv = document.getElementById("modal-ajout");
+  modalAjoutDiv.style.display = "none";
+});
+
+document.getElementById('ajouter-images').addEventListener('click', function() {
+    document.getElementById('formulaire-telechargement').style.display = 'block';
+  });

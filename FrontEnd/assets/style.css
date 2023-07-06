@@ -296,6 +296,7 @@ button {
 	height: 725px;
 	background-color: #fff;
 	/*margin: 150px auto;*/ /* Centrer la fenêtre modale */
+	position: relative; /*pour que les elements se positionnent par rapport à sa posiiton */
 	
 }
 #modal > h3 {
@@ -325,10 +326,13 @@ button {
 .boutonModifierProjets {
 	cursor: pointer;
 }
+
 #modal-content {
 	display: grid;
-	grid-template-columns:repeat(5, 1fr); 
+	grid-template-columns:repeat(5, 0fr); 
 	gap: 10px;
+	justify-content: center;
+	
   }
 
   
@@ -347,7 +351,7 @@ button {
 	row-gap: 25px;
 	
   }
-/* cette partie pour crée ma bare grise au mileu de la modal  */
+/* cette partie pour crée ma barre grise au mileu de la modal  */
   #modal>footer>span { 
 	border-top: 1px solid #ccc;
 	width: 80%;
@@ -391,9 +395,12 @@ margin: 25px;}
 	border-radius: 3px;
 	cursor: pointer;
   }
+  .bouton-deplacer {
+	display:none;
+  }
 
  .menu-projet{
-	background: rgba(255, 0, 0, 0.5);    // a supprimer aprés !!!!!
+
 	height: 30px;
 	position: absolute;
 	width:78px;
@@ -403,21 +410,121 @@ margin: 25px;}
 	gap : 5px;
 	padding:5px;
 	box-sizing: border-box;   
-
-
  }
+
  .modal-projet {
 	position: relative;
 	border: solid 1px black;
 	display: flex ;
 	justify-content: center;
+	width: 78px; 
  }
-
+.modal-projet:hover .bouton-deplacer {
+	display: flex;
+}
  .modal-projet > img {
-	width: 78px;
 	height: 104px;
 }
 
-#ajoutModalSecondaire {
-	display: none; /* Cacher la fenêtre modale par défaut */
+#modal-ajout {
+	 display: none; 
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 width: 100%;
+	 height:100%;
+	 border: solid 1px black;
+	 background-color: aqua;
+	 /* display:flex;
+	 flex-direction: column; */
+	
+  }
+#modal-ajout-menu{
+	height :30px; 
+	width:100%;
+	display: flex;
+	border: solid red 1px;
+	background-color: orange;
+}
+
+#modal-ajout-menu > nav {
+	display:flex;
+	padding-top: 10px;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#modal-ajout-menu nav i.fa-arrow-left {
+	display: flex;
+	justify-content: flex-start; 
+	padding-left: 10px ;
+}
+  
+#modal-ajout-menu nav i.fa-xmark {
+display: flex;
+justify-content: flex-end;
+padding-right: 10px;
+}
+
+
+.headerAdmin {
+    display: flex;
+    align-items: center;
+	justify-content:center;
+	color: white;
+	row-gap: 6px;
+}
+
+.headerAdmin > i {
+    margin-right: 10px; 
+	color: white;
+}
+
+
+#headerAdminBlanc {
+    border: 15px solid white;
+	border-radius: 20px;
+	margin-right: 10px; 
+	background-color: white ;
+	color: black;
+}
+
+#ajout-image {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	background-color: #e8F1F6;
+}
+
+#ajout-image >i {
+	display: flex;
+	color: #CBD6DC;
+}
+
+#ajouter-images {
+	display: flex;
+	background-color: #CBD6DC ;
+	color: #306685;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+
+  #formulaire-telechargement {
+	margin-top: 10px;
+	display:none;
+  }
+  
+  #formulaire-telechargement input[type="file"] {
+	margin-right: 10px;
+  }
+  
+  #formulaire-telechargement button[type="submit"] {
+	background-color: blue;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
   }

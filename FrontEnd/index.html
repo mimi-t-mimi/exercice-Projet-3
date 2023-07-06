@@ -12,7 +12,10 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-	<div class="headerAdmin">slkdjfh sqdfjh 
+	<div class="headerAdmin">
+		<i class="fa-solid fa-pen-to-square"></i> <p>Mode édition </p>
+		<br></br>
+		<p id="headerAdminBlanc"> publier changements </p>
 	</div>
 <header>
 
@@ -55,7 +58,32 @@
 					
 				</div>
 
-				<div id = "ajoutd"> </div>
+				<div id = "modal-ajout"> 
+
+						<!-- ajout  ajouter une div d'une hauteut de 30px en haut id = modal-ajout-menu  dans ce menu deux bouton une croix a droite pr fermer et une fleches a gauche pour revenir en 1er modale  sur les bouton en javascript on lui met un event listener click qui remet un display none pour la cacher au click-->  
+						<div id = modal-ajout-menu>
+							<nav>
+								<i class="fa-solid fa-arrow-left"></i>
+								<i class="fa-solid fa-xmark"></i>
+							</nav>	
+				</div>		
+					
+				<h3>Ajout Photo</h3>
+
+				<div id="ajout-image">
+					<i class="fa-solid fa-image"></i>
+
+					<button id="ajouter-images">+ Ajouter Photo </button>
+				</div>
+				<form id="formulaire-telechargement">
+					<input type="file" id="input-image" multiple>
+					<button type="submit">Télécharger</button>
+				  </form>
+
+					
+					 
+				</div>
+
 				<footer>
 					<span></span>
 					<bouton>
