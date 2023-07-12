@@ -105,13 +105,33 @@ function fermerModal() {
 
 document.querySelector('#boutonModifierProjets').addEventListener('click', () => {
     ouvrirModal();
+    // Récupérer l'icône de fermeture  methode query selector pour lui modifier sa proprio display 
+const iconeFermer = document.querySelector('.fermer-modal-ajout');
+
+// Ajouter un événement de clic à l'icône de fermeture : ici lorsque je clique sur l'icone fermeture j'appelle la fonction fermer modale 
+iconeFermer.addEventListener('click', fermerModal);
+
+// Définir la fonction fermerModal pour cacher la modale , je defini la fonction fermer modale quand le clic sera executé , dans la fonction je fais reference au overlay de mon css et là la proprio display est modifiée en
+function fermerModal() {
+  const modal = document.querySelector('#overlay');
+  modal.style.display = 'none';
+}
 });
+
+
 document.querySelector('#overlay').addEventListener('click', () => {
     fermerModal();
 // je met un stop propagation avec fonction (e) 
    
 });
 
+document.querySelector('#modal').addEventListener('click', (e) => {
+   e.stopPropagation()
+// je met un stop propagation avec fonction (e) 
+
+// ici j'ai ajouter l'OPTION DE FERMETURE DE LA MODALE CA FONCTIONNNE MAIS JE DOUTE SUR SON POSITIONNEMENT DANS MON CODE ??????????????????????????
+document.querySelector('.fa-xmark').addEventListener('click', fermerModal);
+});
 function afficherProjets() {
     // element DOM qui accueille tous les projets
     const modalContenu = document.querySelector('#modal-content');
@@ -170,11 +190,12 @@ const footer = document.querySelector('#modal footer');
 footer.appendChild(boutonAjouterPhoto);
 footer.appendChild(lienSupprimer);
 
-// Récupérer le bouton "xmark" du doc html 
-var xmarkBouton = document.querySelector("#modal-ajout-menu  i.fa-solid.fa-xmark");
+// Récupérer le bouton "retour" du doc html 
+var retourBouton = document.querySelector(".retour-modal-ajout");
 
-// Ajouter un événement de clic au bouton "xmark"
-xmarkBouton.addEventListener("click", function() {
+// Ajouter un événement de clic au bouton "retour"
+retourBouton.addEventListener("click", function(e) {
+    e.stopPropagation()
   var modalAjoutDiv = document.getElementById("modal-ajout");
   modalAjoutDiv.style.display = "none";
 });
@@ -182,3 +203,24 @@ xmarkBouton.addEventListener("click", function() {
 document.getElementById('ajouter-images').addEventListener('click', function() {
     document.getElementById('formulaire-telechargement').style.display = 'block';
   });
+
+
+  // Obtention des catégories depuis l'API
+fetch('http://localhost:5678/api/categories')
+// methode ten pour recuperer la reponse de ma requete quand je recois la rep elle est transfo en format json sur mon objet response 
+.then(response => response.json()) 
+// qd données json sont extraites lavariabledata va contenir les catégories
+.then(data => {
+    // J'accede à mon elmnt html id= select-categories
+  const selectElement = document.getElementById('select-categories');
+
+  // Ajout des options au menu déroulant : ici pour chaque catégorieje crée l'element option 
+  data.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.id;
+    option.textContent = category.name;
+    selectElement.appendChild(option);
+  });
+})
+// en cas d'erreur je l'affiche dans ma console 
+.catch(error => console.log(error));

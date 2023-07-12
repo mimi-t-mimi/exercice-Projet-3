@@ -84,6 +84,12 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+h3{
+	font-size: 22px;
+	color: black;
+	font-family: 'Work Sans';
+	font-weight: 400;
+}
 nav ul {
 	display: flex;
 	align-items: center;
@@ -253,10 +259,7 @@ button {
 	text-align: left;
 }
 
-.headerAdmin {
-	height: 59px;
-	background-color: black;
-}
+
 .boutonModifier{
 
 	text-decoration: none;
@@ -295,15 +298,15 @@ button {
 	width: 625px;
 	height: 725px;
 	background-color: #fff;
+	/* border:1px solid; */
+	border-radius: 20PX;
 	/*margin: 150px auto;*/ /* Centrer la fenêtre modale */
 	position: relative; /*pour que les elements se positionnent par rapport à sa posiiton */
 	
 }
 #modal > h3 {
 	text-align: center;
-	width: 175px;
-	height: 35px;
-	margin: 0 auto;
+	margin-bottom: 40px;
 }
 #modal-content {
 	padding:0 20px 20px 20px;
@@ -359,7 +362,7 @@ button {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-margin: 25px;}
+	margin: 25px;}
 
 
   
@@ -414,7 +417,8 @@ margin: 25px;}
 
  .modal-projet {
 	position: relative;
-	border: solid 1px black;
+	border: solid 1px;
+	
 	display: flex ;
 	justify-content: center;
 	width: 78px; 
@@ -433,18 +437,28 @@ margin: 25px;}
 	 left: 0;
 	 width: 100%;
 	 height:100%;
-	 border: solid 1px black;
-	 background-color: aqua;
-	 /* display:flex;
-	 flex-direction: column; */
-	
+	 border: 1px;
+	 border-radius: 20px;
+	 background-color:white;
+	 display:flex;
+	 flex-direction: column;
+
   }
+
+
+  #modal-ajout > h3 {
+	text-align: center;
+	margin-bottom: 40px;
+	margin-top: 30PX;
+	color: #000000;
+	font-weight: 400;
+	font-family: 'work sans';
+
+}
 #modal-ajout-menu{
 	height :30px; 
 	width:100%;
 	display: flex;
-	border: solid red 1px;
-	background-color: orange;
 }
 
 #modal-ajout-menu > nav {
@@ -457,13 +471,20 @@ margin: 25px;}
 #modal-ajout-menu nav i.fa-arrow-left {
 	display: flex;
 	justify-content: flex-start; 
-	padding-left: 10px ;
+	padding-left: 20px ;
+	width: 30PX;
+	height:30PX;
+	margin-top: 10PX;
+
 }
   
 #modal-ajout-menu nav i.fa-xmark {
-display: flex;
-justify-content: flex-end;
-padding-right: 10px;
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 20px;
+	width: 40PX;
+	height:40PX;
+	margin-top: 10PX;
 }
 
 
@@ -472,8 +493,11 @@ padding-right: 10px;
     align-items: center;
 	justify-content:center;
 	color: white;
-	row-gap: 6px;
+	column-gap: 12px;
+	height: 59px;
+	background-color: black;
 }
+
 
 .headerAdmin > i {
     margin-right: 10px; 
@@ -494,11 +518,21 @@ padding-right: 10px;
 	justify-content: center;
 	flex-direction: column;
 	background-color: #e8F1F6;
+	width: 420px;
+	height: 180px;
+	margin: 0 auto;
+	align-items: center;
 }
 
 #ajout-image >i {
 	display: flex;
 	color: #CBD6DC;
+	justify-content: center;
+	font-size: 58PX;
+	height: 58PX;
+	width: 58PX;
+	
+
 }
 
 #ajouter-images {
@@ -506,11 +540,22 @@ padding-right: 10px;
 	background-color: #CBD6DC ;
 	color: #306685;
 	padding: 10px 20px;
+	width:173px;
+	height:36px;
 	border: none;
-	border-radius: 4px;
+	border-radius: 25px;
 	cursor: pointer;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25PX;
   }
+  #ajout-image > p {
+	margin-top:8px;
+	font-size: 10px;
+	font-family: 'work sans';
+	color: #444444;
 
+  }
   #formulaire-telechargement {
 	margin-top: 10px;
 	display:none;
@@ -527,4 +572,61 @@ padding-right: 10px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
+
+  }
+
+  #champs-supplementaires {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+  }
+  
+  #champs-supplementaires >label {
+	margin-bottom: 5px;
+   
+  }
+  
+  #champs-supplementaires > input,
+  #champs-supplementaires > select {
+	width: 420px;
+	height: 51px;
+	margin-bottom: 10px;
+	border: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  #footer-modal-ajout{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column ;
+
+  }
+
+  #bouton-valider {
+	width: 237px;
+	height: 36px;
+	border-radius: 60px;
+	background-color: #B3B3B3;
+	color: white;
+	border: none;
+	cursor: pointer;
+	font-family: 'work sans';
+	font-weight: 700;
+	font-size: 16px;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40PX;
+  }
+  
+  #trait-gris {
+	
+	justify-content: center;
+	align-items: center;
+	width: 420px;
+	height: 1px;
+	background-color: #B3B3B3;
+	margin-top: 50PX;
   }

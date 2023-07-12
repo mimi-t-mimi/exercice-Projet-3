@@ -13,9 +13,8 @@
 </head>
 <body>
 	<div class="headerAdmin">
-		<i class="fa-solid fa-pen-to-square"></i> <p>Mode édition </p>
-		<br></br>
-		<p id="headerAdminBlanc"> publier changements </p>
+		<p><i class="fa-solid fa-pen-to-square"></i> Mode édition</p>
+		<p id="headerAdminBlanc">publier les changements</p>
 	</div>
 <header>
 
@@ -61,27 +60,44 @@
 				<div id = "modal-ajout"> 
 
 						<!-- ajout  ajouter une div d'une hauteut de 30px en haut id = modal-ajout-menu  dans ce menu deux bouton une croix a droite pr fermer et une fleches a gauche pour revenir en 1er modale  sur les bouton en javascript on lui met un event listener click qui remet un display none pour la cacher au click-->  
-						<div id = modal-ajout-menu>
-							<nav>
-								<i class="fa-solid fa-arrow-left"></i>
-								<i class="fa-solid fa-xmark"></i>
-							</nav>	
-				</div>		
+					<div id = "modal-ajout-menu">
+						<nav>
+							<i class="fa-solid fa-arrow-left retour-modal-ajout"></i>
+							<i class="fa-solid fa-xmark fermer-modal-ajout"></i>
+						</nav>	
+					</div>		
 					
-				<h3>Ajout Photo</h3>
+					<h3>Ajout Photo</h3>
 
-				<div id="ajout-image">
-					<i class="fa-solid fa-image"></i>
+					<div id="ajout-image">
+						<i class="fa-solid fa-image"></i>
 
-					<button id="ajouter-images">+ Ajouter Photo </button>
-				</div>
-				<form id="formulaire-telechargement">
-					<input type="file" id="input-image" multiple>
-					<button type="submit">Télécharger</button>
-				  </form>
-
+						<button id="ajouter-images">+ Ajouter Photo </button>
+						<p>jpg, png : 4mo max</p>
+						
+					</div>
+					<form id="formulaire-telechargement">
+						<input type="file" id="input-image" multiple>
+						<button type="submit">Télécharger</button>
+				  	</form>
 					
-					 
+					  <div id="champs-supplementaires">
+						<label for="input-titre">Titre</label>
+						<input type="text" id="input-titre" ""placeholder="Titre""">
+					  
+						<label for="select-categories">Catégorie</label>
+						<select id="select-categories">
+						  <option value=""></option>
+						  <!-- <option value="cat1">Catégorie 1</option>
+						  <option value="cat2">Catégorie 2</option>
+						  <option value="cat3">Catégorie 3</option> -->
+						</select>
+					  </div>
+
+					<div id = footer-modal-ajout>
+					<figure id="trait-gris"></figure>
+					<button id="bouton-valider">Valider</button>
+					</div>
 				</div>
 
 				<footer>
