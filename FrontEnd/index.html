@@ -71,29 +71,23 @@
 
 					<div id="ajout-image">
 						<i class="fa-solid fa-image"></i>
-
-						<button id="ajouter-images">+ Ajouter Photo </button>
-						<p>jpg, png : 4mo max</p>
-						
+							<button id="ajouter-images">+ Ajouter Photo </button>
+							<p id="message">jpg, png : 4mo max</p>
+				
+							<div id="preview-container"></div>
 					</div>
-					<form id="formulaire-telechargement">
-						<input type="file" id="input-image" multiple>
-						<button type="submit">Télécharger</button>
-				  	</form>
-					
-					  <div id="champs-supplementaires">
+
+						<div id="champs-supplementaires">
 						<label for="input-titre">Titre</label>
-						<input type="text" id="input-titre" ""placeholder="Titre""">
+						<input type="text" id="input-titre">
 					  
 						<label for="select-categories">Catégorie</label>
 						<select id="select-categories">
 						  <option value=""></option>
-						  <!-- <option value="cat1">Catégorie 1</option>
-						  <option value="cat2">Catégorie 2</option>
-						  <option value="cat3">Catégorie 3</option> -->
 						</select>
-					  </div>
-
+						</div>
+				  	
+			
 					<div id = footer-modal-ajout>
 					<figure id="trait-gris"></figure>
 					<button id="bouton-valider">Valider</button>

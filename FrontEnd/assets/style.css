@@ -440,7 +440,6 @@ button {
 	 border: 1px;
 	 border-radius: 20px;
 	 background-color:white;
-	 display:flex;
 	 flex-direction: column;
 
   }
@@ -472,8 +471,7 @@ button {
 	display: flex;
 	justify-content: flex-start; 
 	padding-left: 20px ;
-	width: 30PX;
-	height:30PX;
+	font-size: 21px;
 	margin-top: 10PX;
 
 }
@@ -482,8 +480,7 @@ button {
 	display: flex;
 	justify-content: flex-end;
 	padding-right: 20px;
-	width: 40PX;
-	height:40PX;
+	font-size: 21PX;
 	margin-top: 10PX;
 }
 
@@ -584,7 +581,7 @@ button {
   
   #champs-supplementaires >label {
 	margin-bottom: 5px;
-   
+
   }
   
   #champs-supplementaires > input,
@@ -629,4 +626,10 @@ button {
 	height: 1px;
 	background-color: #B3B3B3;
 	margin-top: 50PX;
+  }
+
+
+  .valider-actif {
+	background-color:#1D6154;;
+	color: white;
   }
