@@ -224,7 +224,7 @@ boutonAjouterImages.addEventListener("click", function() {
   var input = document.createElement("input");
   input.type = "file";
 
-  // Ajouter un écouteur d'événement pour le changement de valeur de l'input file
+  // Ajouter un écouteur d'événement pour le changement de valeur de l'input file lorsqu"un chngement est effectué a savoir un nvx fichier est selectionné 
   input.addEventListener("change", function() {
     var file = input.files[0]; // Récupérer le fichier sélectionné
     
@@ -259,6 +259,26 @@ boutonAjouterImages.addEventListener("click", function() {
   input.click();
 });
 
+  // Obtention des catégories depuis l'API
+fetch('http://localhost:5678/api/categories')
+// methode ten pour recuperer la reponse de ma requete quand je recois la rep elle est transfo en format json sur mon objet response 
+.then(response => response.json()) 
+// qd données json sont extraites lavariabledata va contenir les catégories
+.then(data => {
+    // J'accede à mon elmnt html id= select-categories
+  const selectElement = document.getElementById('select-categories');
+
+  // Ajout des options au menu déroulant : ici pour chaque catégorieje crée l'element option 
+  data.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.id;
+    option.textContent = category.name;
+    selectElement.appendChild(option);
+  });
+})
+// en cas d'erreur je l'affiche dans ma console 
+.catch(error => console.log(error));
+
 // CHANGER L'APPARENCE DU BOUTON QD JE VALIDE TOUTES LES CATEGORIES 
 // Sélectionner les éléments input titre et select catégories
 const inputTitre = document.getElementById("input-titre");
@@ -282,26 +302,5 @@ function mettreAJourBoutonValider() {
 // Déclencher la fonction pour vérifier l'état initial des champs
 mettreAJourBoutonValider();
 
-  
-
-  // Obtention des catégories depuis l'API
-fetch('http://localhost:5678/api/categories')
-// methode ten pour recuperer la reponse de ma requete quand je recois la rep elle est transfo en format json sur mon objet response 
-.then(response => response.json()) 
-// qd données json sont extraites lavariabledata va contenir les catégories
-.then(data => {
-    // J'accede à mon elmnt html id= select-categories
-  const selectElement = document.getElementById('select-categories');
-
-  // Ajout des options au menu déroulant : ici pour chaque catégorieje crée l'element option 
-  data.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category.id;
-    option.textContent = category.name;
-    selectElement.appendChild(option);
-  });
-})
-// en cas d'erreur je l'affiche dans ma console 
-.catch(error => console.log(error));
 
 
