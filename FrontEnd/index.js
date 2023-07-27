@@ -99,8 +99,11 @@ function fermerModal() {
 	const modal = document.querySelector('#overlay');
     const modalAjout= document.querySelector('#modal-ajout');
     // dans cette partie la que la fenetre modale va s'afficher comme un bloc et que son display "none" du css se modifie en bloc 
-	modalAjout.style.display = 'none'; 
+    document.querySelector("#preview-container").classList.add("hidden")
+    document.querySelector("#ajout-image").classList.remove("hidden")
+	  modalAjout.style.display = 'none'; 
     modal.style.display = 'none'; 
+
 
 }
 
@@ -132,7 +135,9 @@ document.querySelector('#modal').addEventListener('click', (e) => {
 const xmarks = document.querySelectorAll('.fa-xmark');
 // on parcours tous le boutons et on leur met un ecouteurs pour fermer au click
 xmarks.forEach (xmark=>{xmark.addEventListener('click', fermerModal)})
-
+// Variable globale pour stocker les nouvelles photos ajoutées
+let nouvellesPhotos = [];
+///////ICI ON PRend en compte le nouveau projet avec les ancien 
 function afficherProjets() {
     // element DOM qui accueille tous les projets
     const modalContenu = document.querySelector('#modal-content');
@@ -168,6 +173,26 @@ function afficherProjets() {
         modalContenu.appendChild(projetElement);
         
     });
+
+    // Ajouter les nouvelles photos à la galerie
+    nouvellesPhotos.forEach(photo => {
+      const projetElement = document.createElement('div');
+      projetElement.classList.add('modal-projet');
+
+      // Créer une image pour la prévisualisation de la nouvelle photo
+      const image = document.createElement('img');
+      image.src = photo.imageUrl;
+      image.alt = photo.title;
+      projetElement.appendChild(image);
+
+      // ... (ajouter les boutons de déplacer et supprimer comme pour les projets existants)
+
+      modalContenu.appendChild(projetElement);
+  });
+
+  // Réinitialiser la variable pour les nouvelles photos ajoutées
+  nouvellesPhotos = [];
+
 }
 
 // Créer le bouton afficher les image 
@@ -197,6 +222,8 @@ var retourBouton = document.querySelector(".retour-modal-ajout");
 // Ajouter un événement de clic au bouton "retour"
 retourBouton.addEventListener("click", function(e) {
     e.stopPropagation()
+    document.querySelector("#preview-container").classList.add("hidden")
+    document.querySelector("#ajout-image").classList.remove("hidden")
   var modalAjoutDiv = document.getElementById("modal-ajout");
   modalAjoutDiv.style.display = "none";
 });
@@ -206,19 +233,20 @@ retourBouton.addEventListener("click", function(e) {
 //   });
 
 // Sélectionner le bouton par son ID
-var boutonAjouterImages = document.getElementById("ajouter-images");
-var previewContainer = document.getElementById("preview-container");
+var boutonAjouterImages = document.querySelector("#ajouter-images");
+var previewContainer = document.querySelector("#preview-container");
 var iconeImage = document.querySelector("#ajout-image i.fa-image");
-var message = document.getElementById("message");
+var message = document.querySelector("#message");
 
 // Ajouter un écouteur d'événement pour le clic sur le bouton
 boutonAjouterImages.addEventListener("click", function() {
-  // je Masque le bouton
-  boutonAjouterImages.style.display = "none";
-  // j'ajoute une classe CSS pour masquer l'icône
-  iconeImage.classList.add("hidden");
-   // Ajout d'une classe CSS pour masquer le message
-   message.classList.add("hidden");
+  // // je Masque le bouton
+  // boutonAjouterImages.style.display = "none";
+  // // j'ajoute une classe CSS pour masquer l'icône
+  // iconeImage.classList.add("hidden");
+  //  // Ajout d'une classe CSS pour masquer le message
+  //  message.classList.add("hidden");
+  
 
   // Crée un élément input de type "file"
   var input = document.createElement("input");
@@ -228,27 +256,30 @@ boutonAjouterImages.addEventListener("click", function() {
   input.addEventListener("change", function() {
     var file = input.files[0]; // Récupérer le fichier sélectionné
     
-    if (file && file.size <= 4 * 1024 * 1024) {
+    if (file && file.size <= 4 * 1024 * 1024) { 
       // Le fichier est valide, afficher la prévisualisation de l'image  filesreader pour lire le contenu du fichier 
       var reader = new FileReader();
 
       // Ajouter un écouteur d'événement pour le chargement du fichier  pour détecter lorsque le chargement du fichier est terminé 
       reader.addEventListener("load", function() {
         // Créer un élément d'image pour la prévisualisation
-        var preview = document.createElement("img");
+        var preview = document.querySelector("#preview-image");
         // j'attribu ici toutes les notions css que doit inclure mon iiamge prévisualisée 
         preview.src = reader.result;
-        preview.style.maxWidth = "60%";
-        preview.style.maxHeight = "100%";
-        preview.style.display = "block";
+        // preview.style.maxWidth = "60%";
+        // preview.style.maxHeight = "100%";
+        // preview.style.display = "block";
    
         // Ajouter la prévisualisation de l'image à l'élément div : je supprime tout contenu existant de l'élément  ; et le append child prview cotainerpourvoir mon image 
-        previewContainer.innerHTML = "";
-        previewContainer.appendChild(preview);
+        // previewContainer.innerHTML = "";
+        // previewContainer.appendChild(preview);
+        document.querySelector("#ajout-image").classList.add("hidden")
+        document.querySelector("#preview-container").classList.remove("hidden")
       });
 
       // Lire le fichier en tant que données URL
       reader.readAsDataURL(file);
+      mettreAJourBoutonValider();
     } else {
       // Le fichier est trop volumineux, afficher un message d'erreur
       alert("La taille maximale de l'image est de 4 Mo.");
@@ -286,14 +317,20 @@ const selectCategories = document.getElementById("select-categories");
 const boutonValider = document.getElementById("bouton-valider");
 
 // Ajouter des écouteurs d'événement pour les champs input et select / UNE FOIS MES CHAMPS COMPLETER LA FONCTION DU BOUTON VALIDER SERA APPELÉE 
-inputTitre.addEventListener("input", mettreAJourBoutonValider);
+inputTitre.addEventListener("change", mettreAJourBoutonValider);
 selectCategories.addEventListener("change", mettreAJourBoutonValider);
 
 // Fonction pour mettre à jour l'apparence du bouton Valider
 function mettreAJourBoutonValider() {
+  
   // Vérifier si les champs titre et catégorie ont une valeur non vide
   if (inputTitre.value !== "" && selectCategories.value !== "") {
     boutonValider.classList.add("valider-actif"); //  une classe CSS pour mettre en évidence le bouton Valider avc les couleur de la maquette 
+     // Ajouter la nouvelle photo à la variable nouvellesPhotos
+     nouvellesPhotos.push({
+      imageUrl: document.querySelector("#preview-image").src,
+      title: inputTitre.value
+  });
   } else {
     boutonValider.classList.remove("valider-actif"); // Supprimer la classe CSS pour désactiver le bouton Valider
   }
@@ -301,6 +338,30 @@ function mettreAJourBoutonValider() {
 
 // Déclencher la fonction pour vérifier l'état initial des champs
 mettreAJourBoutonValider();
+
+
+// // Bouton Valider
+boutonValider.addEventListener("click", function () {
+  // Vérifier si les champs titre et catégorie ont une valeur non vide
+  if (inputTitre.value !== "" && selectCategories.value !== "") {
+      // Ajouter la nouvelle photo à la variable nouvellesPhotos
+      nouvellesPhotos.push({
+          imageUrl: document.querySelector("#preview-image").src,
+          title: inputTitre.value
+      });
+
+      // Actualiser la galerie avec la nouvelle photo
+      chargerProjets(0);
+
+      // Fermer la fenêtre modale après avoir ajouté la photo
+      fermerModal();
+  }
+});
+
+
+
+
+
 
 
 

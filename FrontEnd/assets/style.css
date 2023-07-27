@@ -572,6 +572,23 @@ button {
 
   }
 
+  #preview-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	background-color: #e8F1F6;
+	width: 420px;
+	height: 180px;
+	margin: 0 auto;
+	align-items: center;
+}
+	#preview-container img {
+	height:180px;
+	object-fit: cover;
+}
+
+
+
   #champs-supplementaires {
 	display: flex;
 	flex-direction: column;
@@ -618,6 +635,10 @@ button {
 	margin-top: 40PX;
   }
   
+  #bouton-valider.valider-actif {
+	background-color:#1D6154;
+  }
+
   #trait-gris {
 	
 	justify-content: center;
@@ -629,7 +650,5 @@ button {
   }
 
 
-  .valider-actif {
-	background-color:#1D6154;;
-	color: white;
-  }
+ 
+
