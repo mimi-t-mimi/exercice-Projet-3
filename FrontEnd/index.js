@@ -290,24 +290,18 @@ boutonAjouterImages.addEventListener("click", function() {
   input.click();
 });
 
-  // Obtention des catégories depuis l'API
 fetch('http://localhost:5678/api/categories')
-// methode ten pour recuperer la reponse de ma requete quand je recois la rep elle est transfo en format json sur mon objet response 
-.then(response => response.json()) 
-// qd données json sont extraites lavariabledata va contenir les catégories
-.then(data => {
-    // J'accede à mon elmnt html id= select-categories
-  const selectElement = document.getElementById('select-categories');
+.then(response => response.json())
+.then(categories => {
+    const selectCategories = document.querySelector('#select-categories'); // Utilisation de querySelector
 
-  // Ajout des options au menu déroulant : ici pour chaque catégorieje crée l'element option 
-  data.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category.id;
-    option.textContent = category.name;
-    selectElement.appendChild(option);
-  });
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        selectCategories.appendChild(option);
+    });
 })
-// en cas d'erreur je l'affiche dans ma console 
 .catch(error => console.log(error));
 
 // CHANGER L'APPARENCE DU BOUTON QD JE VALIDE TOUTES LES CATEGORIES 
@@ -357,11 +351,41 @@ boutonValider.addEventListener("click", function () {
       fermerModal();
   }
 });
+// Mettre à jour le bouton Valider lorsque le formulaire est rempli
+document.querySelector('#ajout-form').addEventListener('input', mettreAJourBoutonValider);
 
+// Gérer la soumission du formulaire d'ajout
+document.querySelector('#ajout-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
+    // Récupérer les valeurs du formulaire
+    const titre = document.querySelector('#input-titre').value;
+    const categorieId = parseInt(document.querySelector('#select-categories').value);
+    const imageFile = document.querySelector('#input-image').files[0];
 
+    // Préparer les données pour l'envoi à l'API (FormData)
+    const formData = new FormData();
+    formData.append('title', titre);
+    formData.append('categoryId', categorieId);
+    formData.append('image', imageFile);
 
+    // Envoyer les données à l'API pour ajouter la nouvelle image
+    const response = await fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        body: formData
+    });
 
+    if (response.ok) {
+        // Ajouter la nouvelle photo à la galerie
+        nouvellesPhotos.push({
+            imageUrl: URL.createObjectURL(imageFile), // Utiliser l'URL locale temporaire de l'image
+            title: titre
+        });
 
-
-
+        // Mettre à jour la galerie et fermer la fenêtre modale
+        chargerProjets(0);
+        fermerModal();
+    } else {
+        console.error('Erreur lors de l\'ajout de l\'image');
+    }
+});

@@ -67,33 +67,31 @@
 						</nav>	
 					</div>		
 					
-					<h3>Ajout Photo</h3>
-
-					<div id="ajout-image">
-						<i class="fa-solid fa-image"></i>
-							<button id="ajouter-images">+ Ajouter Photo </button>
-							<p id="message">jpg, png : 4mo max</p>	
-					</div>
-					<div id="preview-container" class="hidden">
-						<img src="" alt="" id="preview-image">
-					</div>
-
-						<div id="champs-supplementaires">
-						<label for="input-titre">Titre</label>
-						<input type="text" id="input-titre">
-					  
-						<label for="select-categories">Catégorie</label>
-						<select id="select-categories">
-						  <option value=""></option>
-						</select>
-						</div>
-				  	
 			
-					<div id = footer-modal-ajout>
-					<figure id="trait-gris"></figure>
-					<button id="bouton-valider">Valider</button>
-					</div>
-				</div>
+					<h3>Ajouter Photo</h3>
+						<form id="ajout-form" enctype="multipart/form-data">
+							<div id="ajout-image">
+								<label for="input-image"><i class="fa-solid fa-image"></i> Ajouter image</label>
+								<input type="file" id="input-image" accept="image/*">
+								<p id="message">jpg, png : 4 Mo max</p>
+							</div>
+							<div id="preview-container" class="hidden">
+								<img src="" alt="" id="preview-image">
+							</div>
+							<div id="champs-supplementaires">
+								<label for="input-titre">Titre</label>
+								<input type="text" id="input-titre" required>
+								<label for="select-categories">Catégorie</label>
+								<select id="select-categories" required>
+									<option value=""></option>
+								</select>
+							</div>
+							<div id="footer-modal-ajout">
+								<figure id="trait-gris"></figure>
+								<button id="bouton-valider" disabled>Valider</button>
+							</div>
+						</form>
+						</div>
 
 				<footer>
 					<span></span>
