@@ -16,64 +16,74 @@
 		<p><i class="fa-solid fa-pen-to-square"></i> Mode édition</p>
 		<p id="headerAdminBlanc">publier les changements</p>
 	</div>
-<header>
+	
+	<header>
 
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li> 
-			<!-- ici le href pour faire en sorte qu'ne nouvelle page se crée  -->
-			<li><a class="boutonLogin">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-	<section id="introduction">
-		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
-			<figcaption><a  class= "boutonModifier" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a> </figcaption>
-		</figure>
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li> 
+				<!-- ici le href pour faire en sorte qu'ne nouvelle page se crée  -->
+				<li><a class="boutonLogin">login</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<div id="introduction">
+			<figure>
+				<img src="./assets/images/sophie-bluel.png" alt="">
+				<figcaption><a  class= "boutonModifier" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a> </figcaption>
+			</figure>
 		
-		<article>
-			<a class= "boutonModifier" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a>
-			<h2>Designer d'espace </h2>
-			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
-			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
-			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
-		</article>
-	</section>
-	<section id="portfolio">
-		<h2>Mes Projets<a id ="boutonModifierProjets" class= "boutonModifier boutonModifierProjets" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a> </h2>
-		<!-- Modal -->
-		<div id="overlay">
-			
-			<div id="modal">
-				<nav><i class="fa-solid fa-xmark"></i></nav>
-				<h3>Galerie Photos</h3>
-				<div id="modal-content">
-					<!-- Contenu de la fenêtre modale : qui doit etre les image des projet avec l'optionsurpression  -->
-					
-				</div>
+			<article>
+				<a class= "boutonModifier" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a>
+				<h2>Designer d'espace </h2>
+				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+			</article>
+		</div>
 
-				<div id = "modal-ajout"> 
+		<div id="portfolio">
+			<h2>Mes Projets<a id ="boutonModifierProjets" class= "boutonModifier boutonModifierProjets" href="#"><i class="fa-solid fa-pen-to-square"></i> modifier</a> </h2>
+			<!-- Modal -->
+			<div id="overlay">
+			
+				<div id="modal">
+					<nav><i class="fa-solid fa-xmark"></i></nav>
+					<h3>Galerie Photos</h3>
+					<div id="modal-content">
+						<!-- Contenu de la fenêtre modale : qui doit etre les image des projet avec l'optionsurpression  -->
+                        <!-- Modèle pour la nouvelle photo -->
+                            <script id="template-nouvelle-photo" type="text/template">
+                                <div class="nouvelle-photo">
+                                    <img src="{{imageUrl}}" alt="{{title}}">
+                                    <span>{{title}}</span>
+                                </div>
+                            </script>
+                    </div>
+				
+                    
+					<div id = "modal-ajout"> 
 
 						<!-- ajout  ajouter une div d'une hauteut de 30px en haut id = modal-ajout-menu  dans ce menu deux bouton une croix a droite pr fermer et une fleches a gauche pour revenir en 1er modale  sur les bouton en javascript on lui met un event listener click qui remet un display none pour la cacher au click-->  
-					<div id = "modal-ajout-menu">
-						<nav>
-							<i class="fa-solid fa-arrow-left retour-modal-ajout"></i>
-							<i class="fa-solid fa-xmark fermer-modal-ajout"></i>
-						</nav>	
-					</div>		
+						<div id = "modal-ajout-menu">
+							<nav>
+								<i class="fa-solid fa-arrow-left retour-modal-ajout"></i>
+								<i class="fa-solid fa-xmark fermer-modal-ajout"></i>
+							</nav>	
+						</div>		
 					
 			
-					<h3>Ajouter Photo</h3>
+						<h3>Ajouter Photo</h3>
 						<form id="ajout-form" enctype="multipart/form-data">
 							<div id="ajout-image">
 								<label for="input-image"><i class="fa-solid fa-image"></i> Ajouter image</label>
 								<input type="file" id="input-image" accept="image/*">
-								<p id="message">jpg, png : 4 Mo max</p>
+								<p>jpg, png : 4 Mo max</p>
 							</div>
 							<div id="preview-container" class="hidden">
 								<img src="" alt="" id="preview-image">
@@ -88,56 +98,55 @@
 							</div>
 							<div id="footer-modal-ajout">
 								<figure id="trait-gris"></figure>
-								<button id="bouton-valider" disabled>Valider</button>
+								<button id="bouton-valider"  type="submit">Valider</button>
 							</div>
 						</form>
-						</div>
+					</div> <!--modal-ajout-->
 
-				<footer>
-					<span></span>
-					<bouton>
-						<form></form>
-					</bouton>
-				</footer>
-			</div>
-		</div>
+					<footer>
+                        <button class="bouton-Ajouter-Photo"> ajouter une photo </button>
+                        <a href="#">Supprimer la galerie </a>
+						
+					</footer>
+				</div> <!--modal-->
+			</div> <!--overlay-->
 		
-		<div class="filtres">
+			<div class="filtres">
+				
+			</div>
+
+			<div class="gallery">
+			</div>
 			
-		</div>
+			
+		</div> <!--portfolio-->
+
 	
-		<div class="gallery">
-		</div>
-			
-			
-	</section>
 
+		<section id="contact">
+			<h2>Contact</h2>
+			<p>Vous avez un projet ? Discutons-en !</p>
+			<form action="#" method="post">
+				<label for="name">Nom</label>
+				<input type="text" name="name" id="name">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email">
+				<label for="message">Message</label>
+				<textarea name="message" id="message" cols="30" rows="10"></textarea>
+				<input type="submit" value="Envoyer">
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
 	
-
-	<section id="contact">
-		<h2>Contact</h2>
-		<p>Vous avez un projet ? Discutons-en !</p>
-		<form action="#" method="post">
-			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
-			<label for="message">Message</label>
-			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input type="submit" value="Envoyer">
-		</form>
-	</section>
-</main>
-
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
-<script src="index.js" type="module"></script>
-
+	<script src="index.js" type="module"></script>
 
 </body>
 </html>
