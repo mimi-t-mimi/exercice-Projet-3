@@ -161,19 +161,46 @@ function afficherProjets() {
         const deplacer = document.createElement('i');
         deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element','bouton-deplacer');
        
+         // Stocker l'ID du projet dans un attribut personnalisé
+         image.setAttribute('data-projet-id', projet.id);
+
 // // jessaie de creer l'option suppression via le bouton corbeille surlaquelle je pourrais cliquer pour supp le projet 
         const corbeille = document.createElement('i');
         corbeille.classList.add('fa', 'fa-trash', 'bouton-element');
-        corbeille.addEventListener('click', () => alert('Supprimer le projet ?'));
-       
+        corbeille.addEventListener('click', async (e) => {
+            const confirmation = confirm('Êtes-vous sûr de vouloir supprimer ce projet ?');
+            if (confirmation) {
+                const response = await fetch(`http://localhost:5678/api/works/${projet.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    chargerProjets(0);
+                } else {
+                    console.error('Erreur lors de la suppression du projet');
+                }
+            }
+        });
+
+
         menu.appendChild(deplacer)
         menu.appendChild(corbeille)
         projetElement.appendChild(menu);
         modalContenu.appendChild(projetElement);
-        
-    });
 
-};
+    });
+    
+            
+      
+    }
+
+
+
+
+
 
 // Ajouter un écouteur d'événement pour le clic sur le bouton "Ajouter une photo"
 document.querySelector(".bouton-Ajouter-Photo").addEventListener('click', function (e) {
@@ -195,8 +222,9 @@ document.querySelector(".retour-modal-ajout").addEventListener("click", function
 document.querySelector("#ajout-image").addEventListener("click", function () {
   
     // Crée un élément input de type "file"
-    let input = document.createElement("input");
-    input.type = "file";
+    //let input = document.createElement("input");
+    let input = document.querySelector("#input-image");
+    //input.type = "file";
 
     // Ajouter un écouteur d'événement pour le changement de valeur de l'input file 
     // lorsqu'un chngement est effectué a savoir un nvx fichier est selectionné 
@@ -242,8 +270,6 @@ categories.forEach(category => {
 });
 
 // CHANGER L'APPARENCE DU BOUTON QD JE VALIDE TOUTES LES CATEGORIES 
-
-
 // Ajouter des écouteurs d'événement pour les champs input et select / UNE FOIS MES CHAMPS COMPLETER LA FONCTION DU BOUTON VALIDER SERA APPELÉE 
 document.querySelector("#input-titre").addEventListener("change", mettreAJourBoutonValider);
 document.querySelector("#select-categories").addEventListener("change", mettreAJourBoutonValider);
@@ -268,86 +294,52 @@ function mettreAJourBoutonValider() {
 mettreAJourBoutonValider();
 
 
-// // Bouton Valider
-document.querySelector('#bouton-valider').addEventListener("click", function () {
-
+// Bouton Valider
+document.querySelector("#bouton-valider").addEventListener("click", function () {
 
       // Actualiser la galerie avec la nouvelle photo
       chargerProjets(0);
 
       // Fermer la fenêtre modale après avoir ajouté la photo
       fermerModal();
-  }     
-  )
-
+  
+});
 
 // Gérer la soumission du formulaire d'ajout
 document.querySelector('#ajout-form').addEventListener('submit', async function (e) {
     e.preventDefault();
-
     // Récupérer les valeurs du formulaire
     const titre = document.querySelector('#input-titre').value;
     const categorieId = parseInt(document.querySelector('#select-categories').value);
     const imageFile = document.querySelector('#input-image').files[0];
-    console.log(titre)
-    console.log(categorieId)
-    console.log(imageFile)
-
+    console.log(titre);
+    console.log(categorieId);
+    console.log(imageFile);
 
     // Préparer les données pour l'envoi à l'API (FormData)
+    //const formData = new FormData(document.querySelector('#ajout-form'));
     const formData = new FormData();
     formData.append('title', titre);
-    formData.append('categoryId', categorieId);
+    formData.append('category', categorieId);
     formData.append('image', imageFile);
+
+    console.log(formData);
 
     // Envoyer les données à l'API pour ajouter la nouvelle image
     const response = await fetch('http://localhost:5678/api/works', {
         method: 'POST',
+        headers: {
+            "accept": "application/json",
+            // "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        },
         body: formData
     });
 
-//     if (response.ok) {
-//         // Ajouter la nouvelle photo à la galerie
-//         nouvellesPhotos.push({
-//             imageUrl: URL.createObjectURL(imageFile), // Utiliser l'URL locale temporaire de l'image
-//             title: titre
-//         });
-
-
-
-//         // Mettre à jour la galerie et fermer la fenêtre modale
-//         chargerProjets(0);
-//         fermerModal();
-//     } 
-//     else {
-//         console.error('Erreur lors de l\'ajout de l\'image');
-//     }
-// });
-        if (response.ok) {
-        // Ajouter la nouvelle photo à la galerie
-        const nouvellePhoto = {
-            imageUrl: URL.createObjectURL(imageFile),
-            title: titre
-        };
-
-        nouvellesPhotos.push(nouvellePhoto);
-
-        // Mettre à jour la galerie et fermer la fenêtre modale
-        chargerProjets(0);
+    if (response.ok) {
+       chargerProjets(0)
         fermerModal();
-
-        // Récupérer le contenu du modèle
-        const template = document.querySelector('#template-nouvelle-photo').innerHTML;
-
-        // Remplacer les variables dans le modèle avec les données de la nouvelle photo
-        const nouvellePhotoHTML = template
-            .replace('{{imageUrl}}', nouvellePhoto.imageUrl)
-            .replace('{{title}}', nouvellePhoto.title);
-
-        // Ajouter la nouvelle photo au DOM avc l'operateur+= POU que l'image sajoute au contenu deja existant 
-        const modalContent = document.querySelector('#modal-content');
-        modalContent.innerHTML += nouvellePhotoHTML;
-        } else {
+    } else {
         console.error('Erreur lors de l\'ajout de l\'image');
-        }
-    });
+    }
+});

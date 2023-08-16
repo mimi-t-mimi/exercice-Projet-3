@@ -532,19 +532,23 @@ button {
 
 }
 
-#ajouter-images {
+#ajouter-photo {
 	display: flex;
 	background-color: #CBD6DC ;
 	color: #306685;
 	padding: 10px 20px;
 	width:173px;
-	height:36px;
+	height:24px;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 16px;
 	border: none;
-	border-radius: 25px;
+	border-radius: 50px;
 	cursor: pointer;
 	justify-content: center;
 	align-items: center;
-	margin-top: 25PX;
+	margin-top: 15PX;
   }
   #ajout-image > p {
 	margin-top:8px;
@@ -552,6 +556,9 @@ button {
 	font-family: 'work sans';
 	color: #444444;
 
+  }
+  #ajout-image > input {
+	display: none;
   }
   #formulaire-telechargement {
 	margin-top: 10px;

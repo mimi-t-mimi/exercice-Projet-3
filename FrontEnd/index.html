@@ -57,16 +57,9 @@
 					<h3>Galerie Photos</h3>
 					<div id="modal-content">
 						<!-- Contenu de la fenêtre modale : qui doit etre les image des projet avec l'optionsurpression  -->
-                        <!-- Modèle pour la nouvelle photo -->
-                            <script id="template-nouvelle-photo" type="text/template">
-                                <div class="nouvelle-photo">
-                                    <img src="{{imageUrl}}" alt="{{title}}">
-                                    <span>{{title}}</span>
-                                </div>
-                            </script>
-                    </div>
-				
-                    
+					
+					</div>
+					
 					<div id = "modal-ajout"> 
 
 						<!-- ajout  ajouter une div d'une hauteut de 30px en haut id = modal-ajout-menu  dans ce menu deux bouton une croix a droite pr fermer et une fleches a gauche pour revenir en 1er modale  sur les bouton en javascript on lui met un event listener click qui remet un display none pour la cacher au click-->  
@@ -79,10 +72,11 @@
 					
 			
 						<h3>Ajouter Photo</h3>
-						<form id="ajout-form" enctype="multipart/form-data">
+						<form id="ajout-form" method="post" enctype="multipart/form-data">
 							<div id="ajout-image">
-								<label for="input-image"><i class="fa-solid fa-image"></i> Ajouter image</label>
-								<input type="file" id="input-image" accept="image/*">
+								<i class="fa-solid fa-image"></i>
+								<label for="input-image" id="ajouter-photo">+ Ajouter image</label>
+								<input type="file" id="input-image" accept="image/*" >
 								<p>jpg, png : 4 Mo max</p>
 							</div>
 							<div id="preview-container" class="hidden">
@@ -98,15 +92,15 @@
 							</div>
 							<div id="footer-modal-ajout">
 								<figure id="trait-gris"></figure>
-								<button id="bouton-valider"  type="submit">Valider</button>
+								<button id="bouton-valider" type="submit">Valider</button>
 							</div>
 						</form>
 					</div> <!--modal-ajout-->
 
 					<footer>
-                        <button class="bouton-Ajouter-Photo"> ajouter une photo </button>
-                        <a href="#">Supprimer la galerie </a>
-						
+						<figure id="trait-gris"></figure>
+						<button class="bouton-Ajouter-Photo">Ajouter une photo</button>
+						<a href="#">Supprimer la galerie</a>
 					</footer>
 				</div> <!--modal-->
 			</div> <!--overlay-->
@@ -149,4 +143,4 @@
 	<script src="index.js" type="module"></script>
 
 </body>
-</html>
+</html> 
