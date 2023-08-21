@@ -1,71 +1,74 @@
-// on met une variable de type boolen pour indiquer si on est connecté ou non ça affiche t /flase
-const connecte = (localStorage.getItem('token') !== null)
+// Afficher un message dans la console pour indiquer que le fichier index.js est chargé
+console.log("load index.js");
 
-if (connecte) { 
-    document.querySelector('.boutonLogin').innerText = 'logout'
+// Vérifier si l'utilisateur est connecté en vérifiant la présence du token
+const connecte = (localStorage.getItem('token') !== null);
+
+// Si l'utilisateur est connecté, mettre à jour le texte du bouton de connexion
+if (connecte) {
+    document.querySelector('.boutonLogin').innerText = 'logout';
 } else {
-    // Pas connecté
-    document.querySelector('.headerAdmin').classList.add('hidden')
+    // Si l'utilisateur n'est pas connecté, masquer les éléments liés à l'administration
+    document.querySelector('.headerAdmin').classList.add('hidden');
     document.querySelectorAll('.boutonModifier').forEach((element) => {
-        element.classList.add('hidden')
-    })
+        element.classList.add('hidden');
+    });
 }
 
-// Ajouter un écouteur d'événement pour le clic sur le bouton de connexion
+// Gérer le clic sur le bouton de connexion
 document.querySelector('.boutonLogin').addEventListener('click', function(){
-    if(connecte){
-        localStorage.clear()
-        window.location.href="index.html"
+    if (connecte) {
+        // Déconnexion en effaçant le token
+        localStorage.clear();
+        window.location.href = "index.html";
+    } else {
+        // Redirection vers la page de connexion
+        window.location.href = "loginPage.html";
     }
-    else{
-        window.location.href="loginPage.html"
-    }
-})
+});
 
-// Récupération des données (works et catégories) dans la base de données
-const resultatWorks = await fetch('http://localhost:5678/api/works')
-const works = await resultatWorks.json()
+// Récupérer les données des projets et des catégories depuis l'API
+let resultatWorks = await fetch('http://localhost:5678/api/works');
+let works = await resultatWorks.json();
 
 const resultatCategories = await fetch('http://localhost:5678/api/categories');
 const categories = await resultatCategories.json();
 
-// Création des boutons des catégories (Seulement si connecté)
+// Créer les boutons de filtrage par catégorie (uniquement si connecté)
 function chargerCategories() {
-    
-    // creation des boutons pour les categories (ici j'ai renommer l'element / category ) d'abord le bouton tous + les 3 categories
-    // unshift pour ajouter la categorie tous au tableau /     
-    categories.unshift({ id: 0, name: 'Tous' })
-    console.log(categories);
+    // Ajouter une catégorie "Tous" au début du tableau de catégories
+    categories.unshift({ id: 0, name: 'Tous' });
+
+    // Créer et ajouter des boutons pour chaque catégorie
     categories.forEach(category => {
         const button = document.createElement('button');
         button.innerText = category.name;
 
-        // Ajouter un écouteur d'événement pour le clic sur chaque bouton qui executera l'id de la categorie
-        // e.target permet faire reference à la cible bouton 
+        // Ajouter un écouteur pour le clic sur chaque bouton de catégorie
         button.addEventListener('click', () => {
-            chargerProjets(category.id)
+            chargerProjets(category.id);
         });
-    
-        // element DOM qui accueille tous les boutons
+
+        // Ajouter le bouton au conteneur de filtres
         const filtres = document.querySelector('.filtres');
         filtres.appendChild(button);
     });
-
 }
 
-// Chargement des projets
-function chargerProjets(category){ 
+// Charger les projets en fonction de la catégorie sélectionnée
+function chargerProjets(category) {
+    let worksFiltered = [];
+    
+    if (category === 0) {
+        worksFiltered = works; // Afficher tous les projets
+    } else {
+        worksFiltered = works.filter(work => work.categoryId === category);
+    }
 
-    // Filtrer les works en se basant sur les categories
-    let worksFiltered = new Array
-    if (category === 0)
-        worksFiltered = works
-    else 
-        worksFiltered = works.filter(function(work){return work.categoryId === category})
-
-    // element DOM qui accueille toutes les images on le reinitialise 
+    // Mettre à jour la galerie d'images avec les projets filtrés
     const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = ""
+    gallery.innerHTML = '';
+
     worksFiltered.forEach(element => {
         const fig = document.createElement('figure');
         const img = document.createElement('img');
@@ -75,96 +78,80 @@ function chargerProjets(category){
         caption.innerText = element.title;
         fig.appendChild(img);
         fig.appendChild(caption);
-        gallery.appendChild(fig);   
+        gallery.appendChild(fig);
     });
-};
+}
 
-// appel de la fonction
-if (!connecte) { chargerCategories() }
-chargerProjets(0)
+// Appeler les fonctions pour charger les catégories et les projets
+if (!connecte) {
+    chargerCategories();
+}
+chargerProjets(0);
 
-
-
-
-// ici la fonctionnalité qui permet d'ouvrir la fenetre modale mise en place dans le html 
-// La fonction récupère l'élément modal par son ID et change la valeur de son style pour l'afficher 
-// la fonction ouvrirModal pour qu'elle appelle une nouvelle fonction afficherProjets qui récupérera 
-// les projets depuis l'API et les affichera dans la fenêtre modale :
+// Gérer l'ouverture de la fenêtre modale
 function ouvrirModal() {
 	const modal = document.querySelector('#overlay');
-    // dans cette partie la que la fenetre modale va s'afficher comme un bloc et que son display "none" du css se modifie en bloc 
-	modal.style.display = 'flex'; 
-    // Afficher les projets dans la fenêtre modale
+	modal.style.display = 'flex';
     afficherProjets();
 }
 
+// Gérer la fermeture de la fenêtre modale
 function fermerModal() {
-    // ATTENTION : il faut pas oublier de fermer aussi la fenetre modale d'ajout
 	const modal = document.querySelector('#overlay');
-    const modalAjout= document.querySelector('#modal-ajout');
-    // dans cette partie la que la fenetre modale va s'afficher 
-    // comme un bloc et que son display "none" du css se modifie en bloc 
-    // On doit réinitialiser le contenu de la fenêtre modale ajout
-    document.querySelector("#preview-container").classList.add("hidden")
-    document.querySelector("#ajout-image").classList.remove("hidden")
-	// On cache les 2 modales
-    modalAjout.style.display = 'none'; 
-    modal.style.display = 'none'; 
+	fermerModalAjout();
+	modal.style.display = 'none';
 }
 
-// Ajouter un écouteur d'événement pour le clic sur le bouton "Modifier les projets"
+// Gérer la fermeture de la fenêtre modale d'ajout
+function fermerModalAjout() {
+    const modalAjout = document.querySelector('#modal-ajout');
+    document.querySelector("#preview-container").classList.add("hidden");
+    document.querySelector("#ajout-image").classList.remove("hidden");
+    modalAjout.style.display = 'none';
+}
+
+// Ajouter un écouteur d'événement pour le bouton "Modifier les projets"
 document.querySelector('#boutonModifierProjets').addEventListener('click', () => {
     ouvrirModal();
 });
 
-// Ajouter un écouteur d'événement pour le clic sur tout le overlay
+// Ajouter un écouteur d'événement pour le clic sur tout l'overlay
 document.querySelector('#overlay').addEventListener('click', () => {
     fermerModal();   
 });
 
-// Eviter que les clics sur la fenêtre modale ne se transmettent à l'overlay
+// Empêcher la propagation des clics sur la fenêtre modale
 document.querySelector('#modal').addEventListener('click', (e) => {
-    e.stopPropagation()
-    // je met un stop propagation avec fonction (e) 
+    e.stopPropagation();
 });
 
-// ici j'ai ajouter l'OPTION DE FERMETURE DE LA MODALE CA FONCTIONNNE
-// on  parcours tous les boutons avec la class xmark 
+// Ajouter un écouteur d'événement pour les boutons de fermeture
 const xmarks = document.querySelectorAll('.fa-xmark');
-xmarks.forEach (xmark=>{xmark.addEventListener('click', fermerModal)})
+xmarks.forEach(xmark => {
+    xmark.addEventListener('click', fermerModal);
+});
 
-
-
-
-// Affichage des projets dans la fenêtre modale
+// Afficher les projets dans la fenêtre modale
 function afficherProjets() {
-    // element DOM qui accueille tous les projets
     const modalContenu = document.querySelector('#modal-content');
-    // code pour vider le modal contenu 
-    modalContenu.innerHTML=""
+    modalContenu.innerHTML = '';
 
-    // Parcourir tous les projets et les afficher avec une corbeille 
-    // j'essaie de créer une div qui contiendra le projet isssu de l'api 'works'
     works.forEach(projet => {
         const projetElement = document.createElement('div');
         projetElement.classList.add('modal-projet');
-        
-        // Créer d'abord une picture qui contiendra et en css hover pour faire apparaitre et disparaitre la croix et elle apparait que quand on passe la souris dessu  
-        // l'image du projet et une figcaption qui contiendra le titre du projet 
+
         const image = document.createElement('img');
         image.src = projet.imageUrl;
         image.alt = projet.title;
         projetElement.appendChild(image);
-        const menu = document.createElement ('div')
-        menu.classList.add ('menu-projet')
+        const menu = document.createElement ('div');
+        menu.classList.add ('menu-projet');
 
         const deplacer = document.createElement('i');
-        deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element','bouton-deplacer');
-       
-         // Stocker l'ID du projet dans un attribut personnalisé
-         image.setAttribute('data-projet-id', projet.id);
+        deplacer.classList.add('fa', 'fa-arrows-up-down-left-right', 'bouton-element', 'bouton-deplacer');
 
-// // jessaie de creer l'option suppression via le bouton corbeille surlaquelle je pourrais cliquer pour supp le projet 
+        image.setAttribute('data-projet-id', projet.id);
+
         const corbeille = document.createElement('i');
         corbeille.classList.add('fa', 'fa-trash', 'bouton-element');
         corbeille.addEventListener('click', async (e) => {
@@ -178,90 +165,54 @@ function afficherProjets() {
                 });
 
                 if (response.ok) {
+                    resultatWorks = await fetch('http://localhost:5678/api/works');
+                    works = await resultatWorks.json();
                     chargerProjets(0);
+                    afficherProjets();
                 } else {
                     console.error('Erreur lors de la suppression du projet');
                 }
             }
         });
 
-
-        menu.appendChild(deplacer)
-        menu.appendChild(corbeille)
+        menu.appendChild(deplacer);
+        menu.appendChild(corbeille);
         projetElement.appendChild(menu);
         modalContenu.appendChild(projetElement);
-
     });
-    
-            
-      
-    }
+}
 
-
-
-
-
-
-// Ajouter un écouteur d'événement pour le clic sur le bouton "Ajouter une photo"
+// Gérer l'ajout d'une photo
 document.querySelector(".bouton-Ajouter-Photo").addEventListener('click', function (e) {
-    e.stopPropagation()
-    document.querySelector('#modal-ajout').style.display='flex'
-})
+    e.stopPropagation();
+    document.querySelector('#modal-ajout').style.display = 'flex';
+});
 
-// Ajouter un événement de clic au bouton "retour"
+// Gérer le clic sur le bouton de retour dans la fenêtre modale d'ajout
 document.querySelector(".retour-modal-ajout").addEventListener("click", function(e) {
-    e.stopPropagation()
-    // On réinitialise le contenu de la fenêtre modale ajout
-    document.querySelector("#preview-container").classList.add("hidden")
-    document.querySelector("#ajout-image").classList.remove("hidden")
-    // On cache la fenêtre modale
-    document.querySelector("#modal-ajout").style.display = "none";
+    e.stopPropagation();
+    fermerModalAjout();
+});
+// GERer le clicajout image 
+document.querySelector("#input-image").addEventListener("change", function () {
+    let file = this.files[0];
+    if (file && file.size <= 4 * 1024 * 1024) {
+        let reader = new FileReader();
+        reader.addEventListener("load", function () {
+            var preview = document.querySelector("#preview-image");
+            preview.src = reader.result;
+            document.querySelector("#preview-container").classList.remove("hidden");
+            document.querySelector("#ajout-image").classList.add("hidden");
+        });
+        reader.readAsDataURL(file);
+        mettreAJourBoutonValider();
+    } else {
+        alert("La taille maximale de l'image est de 4 Mo.");
+    }
 });
 
-// Ajouter un écouteur d'événement pour le clic sur le bouton
-document.querySelector("#ajout-image").addEventListener("click", function () {
-  
-    // Crée un élément input de type "file"
-    //let input = document.createElement("input");
-    let input = document.querySelector("#input-image");
-    //input.type = "file";
-
-    // Ajouter un écouteur d'événement pour le changement de valeur de l'input file 
-    // lorsqu'un chngement est effectué a savoir un nvx fichier est selectionné 
-    input.addEventListener("change", function() {
-        let file = input.files[0]; // Récupérer le fichier sélectionné
-    
-        if (file && file.size <= 4 * 1024 * 1024) { 
-            // Le fichier est valide, afficher la prévisualisation de l'image  filesreader pour lire le contenu du fichier 
-            let reader = new FileReader();
-
-            // Ajouter un écouteur d'événement pour le chargement du fichier  pour détecter lorsque le chargement du fichier est terminé 
-            reader.addEventListener("load", function() {
-                // Créer un élément d'image pour la prévisualisation
-                var preview = document.querySelector("#preview-image");
-                // j'attribu ici toutes les notions css que doit inclure mon iiamge prévisualisée 
-                preview.src = reader.result;
-                
-                // Ajouter la prévisualisation de l'image à l'élément div : je supprime tout contenu existant de l'élément  ; et le append child prview cotainerpourvoir mon image 
-                document.querySelector("#preview-container").classList.remove("hidden")
-                document.querySelector("#ajout-image").classList.add("hidden")
-            });
-
-            // Lire le fichier en tant que données URL
-            reader.readAsDataURL(file);
-            mettreAJourBoutonValider();
-        } else {
-            // Le fichier est trop volumineux, afficher un message d'erreur
-            alert("La taille maximale de l'image est de 4 Mo.");
-        }
-    });
-
-    // Déclencher le clic sur l'élément input pour afficher la boîte de dialogue de sélection de fichiers
-    input.click();
-});
-
-// Chargement de la liste des catégories dans le formulaire d'ajout
-const selectCategories = document.querySelector('#select-categories'); // Utilisation de querySelector
+// Charger les catégories dans le formulaire d'ajout
+const selectCategories = document.querySelector('#select-categories');
 categories.forEach(category => {
     const option = document.createElement('option');
     option.value = category.id;
@@ -269,77 +220,67 @@ categories.forEach(category => {
     selectCategories.appendChild(option);
 });
 
-// CHANGER L'APPARENCE DU BOUTON QD JE VALIDE TOUTES LES CATEGORIES 
-// Ajouter des écouteurs d'événement pour les champs input et select / UNE FOIS MES CHAMPS COMPLETER LA FONCTION DU BOUTON VALIDER SERA APPELÉE 
+// Mettre à jour l'apparence du bouton Valider en fonction des champs
 document.querySelector("#input-titre").addEventListener("change", mettreAJourBoutonValider);
 document.querySelector("#select-categories").addEventListener("change", mettreAJourBoutonValider);
 
-// Fonction pour mettre à jour l'apparence du bouton Valider
 function mettreAJourBoutonValider() {
     const boutonValider = document.querySelector("#bouton-valider");
-    // Vérifier si les champs titre et catégorie ont une valeur non vide
     if (document.querySelector("#input-titre").value !== "" && document.querySelector("#select-categories").value !== "") {
-        boutonValider.classList.add("valider-actif"); //  une classe CSS pour mettre en évidence le bouton Valider avc les couleur de la maquette 
-        // Ajouter la nouvelle photo à la variable nouvellesPhotos
-        // nouvellesPhotos.push({
-        //     imageUrl: document.querySelector("#preview-image").src,
-        //     title: inputTitre.value
-        // });
+        boutonValider.classList.add("valider-actif");
     } else {
-        boutonValider.classList.remove("valider-actif"); // Supprimer la classe CSS pour désactiver le bouton Valider
+        boutonValider.classList.remove("valider-actif");
     }
 }
 
-// Déclencher la fonction pour vérifier l'état initial des champs
-mettreAJourBoutonValider();
+// Ajouter un événement 'submit' au formulaire d'ajout
+document.querySelector("#ajout-form").addEventListener("submit", async function (e) {
+    e.preventDefault(); // Empêcher le rafraîchissement de la page
 
-
-// Bouton Valider
-document.querySelector("#bouton-valider").addEventListener("click", function () {
-
-      // Actualiser la galerie avec la nouvelle photo
-      chargerProjets(0);
-
-      // Fermer la fenêtre modale après avoir ajouté la photo
-      fermerModal();
-  
-});
-
-// Gérer la soumission du formulaire d'ajout
-document.querySelector('#ajout-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    // Récupérer les valeurs du formulaire
     const titre = document.querySelector('#input-titre').value;
     const categorieId = parseInt(document.querySelector('#select-categories').value);
     const imageFile = document.querySelector('#input-image').files[0];
-    console.log(titre);
-    console.log(categorieId);
-    console.log(imageFile);
 
-    // Préparer les données pour l'envoi à l'API (FormData)
-    //const formData = new FormData(document.querySelector('#ajout-form'));
     const formData = new FormData();
     formData.append('title', titre);
     formData.append('category', categorieId);
     formData.append('image', imageFile);
 
-    console.log(formData);
+    try {
+        const reponse = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                "accept": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            body: formData
+        });
 
-    // Envoyer les données à l'API pour ajouter la nouvelle image
-    const response = await fetch('http://localhost:5678/api/works', {
-        method: 'POST',
-        headers: {
-            "accept": "application/json",
-            // "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
-        },
-        body: formData
-    });
+        if (reponse.ok) {
+            resultatWorks = await fetch('http://localhost:5678/api/works');
+            works = await resultatWorks.json();
 
-    if (response.ok) {
-       chargerProjets(0)
-        fermerModal();
-    } else {
-        console.error('Erreur lors de l\'ajout de l\'image');
+            chargerProjets(0);
+
+            // Mettre à jour la galerie principale sans fermer la modale d'ajout
+            afficherProjets();
+            // Réinitialiser le formulaire d'ajout
+            document.querySelector("#input-titre").value = "";
+            document.querySelector("#select-categories").value = "";
+            document.querySelector("#input-image").value = "";
+            document.querySelector("#preview-container").classList.add("hidden");
+
+            // Masquer le formulaire d'ajout et afficher la modale d'affichage des images
+            document.querySelector("#modal-ajout").style.display = "none";
+            document.querySelector("#overlay").style.display = "flex";
+        } else {
+            console.error('Erreur lors de l\'ajout de l\'image');
+        }
+    } catch (erreur) {
+        console.error('Erreur lors de la requête:', erreur);
     }
+
+
+   
+
 });
